@@ -1,4 +1,4 @@
-import lib.puppet as puppet
+import modules.puppet as puppet
 from influxdb import InfluxDBClient
 from datetime import datetime
 

@@ -1,5 +1,5 @@
 import simplejson
-import lib.apibase as apibase
+import modules.apibase as apibase
 import sys
 
 
