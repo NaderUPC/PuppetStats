@@ -1,4 +1,4 @@
-import modules.puppet as puppet
+import lib.puppet as puppet
 from influxdb import InfluxDBClient
 from datetime import datetime
 
@@ -17,10 +17,13 @@ class InfluxDB:
     
     
     def os(self, location: str, group: str, hosts: list) -> dict:
-        if location != "UPC" and location != "Tauli":
-            raise ValueError("location must be either UPC or Tauli")
-        if group != "SO" and group != "IE":
-            raise ValueError("location must be either SO or IE")
+        if location == "Tauli":
+            tags = { "location": location }
+        elif location == "UPC":
+            if group != "UPCnet/SO" and group != "UPCnet/IE":
+                raise ValueError("group must be either UPCnet/SO or UPCnet/IE")
+            else: tags = { "location": location, "group": group }
+        else: raise ValueError("location must be either UPC or Tauli")
         
         os_values = {}
         for host in hosts:
@@ -29,13 +32,16 @@ class InfluxDB:
         
         return {
             "measurement": "os",
-            "tags": { "location": location, "group": group },
+            "tags": tags,
             "fields": os_values,
             "time": self.timestamp
         }
     
     
     def security(self, group: str, hosts: list) -> dict:
+        if group != "UPCnet/SO" and group != "UPCnet/IE":
+            raise ValueError("group must be either UPCnet/SO or UPCnet/IE")
+        
         security_values = {}
         for host in hosts:
             hostname = host["name"]
@@ -52,29 +58,28 @@ class InfluxDB:
         }
     
     
-    def esm(self, hosts: list, group: str = "") -> dict:
+    def esm(self, group: str, hosts: list) -> dict:
+        if group != "UPCnet/SO" and group != "UPCnet/IE":
+            raise ValueError("group must be either UPCnet/SO or UPCnet/IE")
+        
         esm_values = {}
         for host in hosts:
             os = puppet.Puppet.os(host)
             if os == "Ubuntu 20.04 LTS": continue
             esm_values[os] = esm_values.get(os, 0) + 1
         
-        if group == "SO" or group == "IE":
-            return {
-                "measurement": "esm",
-                "tags": { "group": group },
-                "fields": esm_values,
-                "time": self.timestamp
-            }
-        else:
-            return {
-                "measurement": "esm",
-                "fields": esm_values,
-                "time": self.timestamp
-            }
+        return {
+            "measurement": "esm",
+            "tags": { "group": group },
+            "fields": esm_values,
+            "time": self.timestamp
+        }
     
     
-    def reboot(self, reboot_hosts: list, autoreboot_hosts: list, group: str = "") -> dict:
+    def reboot(self, group: str, reboot_hosts: list, autoreboot_hosts: list) -> dict:
+        if group != "UPCnet/SO" and group != "UPCnet/IE":
+            raise ValueError("group must be either UPCnet/SO or UPCnet/IE")
+        
         to_reboot = set()
         for host in reboot_hosts:
             if isinstance(host, str): continue
@@ -123,6 +128,7 @@ class InfluxDB:
         
         return {
             "measurement": "reboot",
+            "tags": { "group": group },
             "fields": { "value": len(total) },
             "time": self.timestamp
         }

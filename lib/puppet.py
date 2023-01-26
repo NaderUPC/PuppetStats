@@ -1,5 +1,5 @@
 import simplejson
-import modules.apibase as apibase
+import lib.apibase as apibase
 import sys
 
 
@@ -8,7 +8,8 @@ class Puppet(apibase.API):
         super().__init__(url, username, password)
     
     
-    def hosts(self, location: str = "", group: str = "") -> list:
+    def hosts(self, location: str = "", group: str = "", reboot: bool = False, autoreboot: bool = False, security_updates: bool = False) -> list:
+        uri = "api/hosts"
         params = { "per_page": "all" }
         if location and not group:
             params["search"] = f"{location}"
@@ -17,7 +18,17 @@ class Puppet(apibase.API):
         if location and group:
             params["search"] = f"{location} and parent_hostgroup={group}"
         
-        r = self.get("api/hosts", params = params)
+        if reboot:
+            params["search"] += " and facts.apt_reboot_required=true"
+        elif autoreboot:
+            uri = "api/smart_class_parameters/3320/override_values"
+            params["per_page"] = "500"
+        elif security_updates:
+            uri = f"api/hosts/{params['search']}/facts"
+            params["per_page"] = "1000"
+            params["search"] = "apt_security_updates"
+        
+        r = self.get(uri, params = params)
         try:
             return r.json()["results"]
         except (simplejson.JSONDecodeError, KeyError):
@@ -33,8 +44,8 @@ class Puppet(apibase.API):
         except (simplejson.JSONDecodeError, KeyError):
             e = self.NotAvailableError(r.status_code)
             sys.exit(r.status_code)
-
-
+    
+    
     @staticmethod
     def os(host: dict) -> str:
         os = host["operatingsystem_name"].split()
