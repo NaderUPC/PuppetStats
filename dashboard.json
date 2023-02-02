@@ -21,7 +21,7 @@
       "type": "grafana",
       "id": "grafana",
       "name": "Grafana",
-      "version": "9.3.2"
+      "version": "9.3.4"
     },
     {
       "type": "panel",
@@ -154,7 +154,7 @@
         },
         "textMode": "auto"
       },
-      "pluginVersion": "9.3.2",
+      "pluginVersion": "9.3.4",
       "targets": [
         {
           "datasource": {
@@ -583,7 +583,7 @@
         },
         "textMode": "auto"
       },
-      "pluginVersion": "9.3.2",
+      "pluginVersion": "9.3.4",
       "targets": [
         {
           "datasource": {
@@ -655,7 +655,7 @@
         },
         "textMode": "auto"
       },
-      "pluginVersion": "9.3.2",
+      "pluginVersion": "9.3.4",
       "targets": [
         {
           "datasource": {
@@ -738,7 +738,7 @@
         "showThresholdLabels": false,
         "showThresholdMarkers": true
       },
-      "pluginVersion": "9.3.2",
+      "pluginVersion": "9.3.4",
       "targets": [
         {
           "datasource": {
@@ -887,7 +887,7 @@
         "showThresholdLabels": false,
         "showThresholdMarkers": true
       },
-      "pluginVersion": "9.3.2",
+      "pluginVersion": "9.3.4",
       "targets": [
         {
           "datasource": {
@@ -899,6 +899,8 @@
           "measurement": "os",
           "orderByTime": "DESC",
           "policy": "default",
+          "query": "SELECT \"Ubuntu 14\" FROM \"os\" ORDER BY time DESC LIMIT 2",
+          "rawQuery": true,
           "refId": "A",
           "resultFormat": "table",
           "select": [
@@ -924,6 +926,8 @@
           "measurement": "os",
           "orderByTime": "DESC",
           "policy": "default",
+          "query": "SELECT \"Ubuntu 16\" FROM \"os\" ORDER BY time DESC LIMIT 2",
+          "rawQuery": true,
           "refId": "B",
           "resultFormat": "table",
           "select": [
@@ -949,6 +953,8 @@
           "measurement": "os",
           "orderByTime": "DESC",
           "policy": "default",
+          "query": "SELECT \"Ubuntu 20\" FROM \"os\" ORDER BY time DESC LIMIT 2",
+          "rawQuery": true,
           "refId": "C",
           "resultFormat": "table",
           "select": [
@@ -1029,7 +1035,7 @@
         },
         "textMode": "auto"
       },
-      "pluginVersion": "9.3.2",
+      "pluginVersion": "9.3.4",
       "targets": [
         {
           "datasource": {
@@ -1116,7 +1122,7 @@
         },
         "textMode": "auto"
       },
-      "pluginVersion": "9.3.2",
+      "pluginVersion": "9.3.4",
       "targets": [
         {
           "datasource": {
@@ -1559,13 +1565,13 @@
     "list": []
   },
   "time": {
-    "from": "2022-12-01T12:39:55.426Z",
-    "to": "2022-12-02T11:51:08.004Z"
+    "from": "now-6h",
+    "to": "now"
   },
   "timepicker": {},
   "timezone": "",
   "title": "Puppet Stats",
   "uid": "H3ciUwOVk",
-  "version": 36,
+  "version": 37,
   "weekStart": ""
 }
