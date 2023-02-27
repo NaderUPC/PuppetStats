@@ -1,7 +1,7 @@
 import lib.influxdb as influxdb
 import lib.puppet as puppet
 
-groups = ["UPCnet/SO", "UPCnet/IE"]
+groups = ["UPCnet/" + group for group in ["SO", "IE"]]
 
 
 def os(db_ep: influxdb.InfluxDB, puppet_ep: puppet.Puppet) -> list:
@@ -27,7 +27,8 @@ def security(db_ep: influxdb.InfluxDB, puppet_ep: puppet.Puppet) -> list:
     for group in groups:
         payloads.append(db_ep.security(
             group = group,
-            hosts = puppet_ep.hosts(group = group, security_updates = True)
+            hosts = puppet_ep.hosts(group = group),
+            puppet_ep = puppet_ep
         ))
     return payloads
 

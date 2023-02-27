@@ -6,6 +6,8 @@ import modules.config as config
 import modules.funcs as funcs
 from datetime import datetime
 
+from pprint import pprint  # DEBUG
+
 
 def main():
     # === InfluxDB & Puppet Endpoints/Clients Setup === #
@@ -19,11 +21,15 @@ def main():
     # OS
     payload.extend(funcs.os(db_ep, puppet_ep))
     # Security
-    ### 404 CODE: payload.extend(funcs.security(db_ep, puppet_ep))
+    payload.extend(funcs.security(db_ep, puppet_ep))
     # ESM
     payload.extend(funcs.esm(db_ep, puppet_ep))
     # Reboot
-    ### 400 CODE: payload.extend(funcs.reboot(db_ep, puppet_ep))
+    payload.extend(funcs.reboot(db_ep, puppet_ep))
+
+    pprint(payload)  # DEBUG
+
+    # db_client.write_points(payload)
 
 
 if __name__ == "__main__":

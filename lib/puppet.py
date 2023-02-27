@@ -2,13 +2,15 @@ import simplejson
 import lib.apibase as apibase
 import sys
 
+from pprint import pprint
+
 
 class Puppet(apibase.API):
     def __init__(self, url: str, username: str, password: str) -> None:
         super().__init__(url, username, password)
     
     
-    def hosts(self, location: str = "", group: str = "", reboot: bool = False, autoreboot: bool = False, security_updates: bool = False) -> list:
+    def hosts(self, location: str = "", group: str = "", reboot: bool = False, autoreboot: bool = False, security_updates: bool = False, hostname: str = "") -> list:
         uri = "api/hosts"
         params = { "per_page": "all" }
         if location and not group:
@@ -22,9 +24,10 @@ class Puppet(apibase.API):
             params["search"] += " and facts.apt_reboot_required=true"
         elif autoreboot:
             uri = "api/smart_class_parameters/3320/override_values"
+            params.pop("search")
             params["per_page"] = "500"
         elif security_updates:
-            uri = f"api/hosts/{params['search']}/facts"
+            uri = f"api/hosts/{hostname}/facts"
             params["per_page"] = "1000"
             params["search"] = "apt_security_updates"
         
@@ -32,8 +35,8 @@ class Puppet(apibase.API):
         try:
             return r.json()["results"]
         except (simplejson.JSONDecodeError, KeyError):
-            e = self.NotAvailableError(r.status_code)
-            sys.exit(r.status_code)
+            raise self.NotAvailableError(r.status_code)
+            # sys.exit(r.status_code)
     
     
     def facts_of(self, hostname: str) -> dict:
@@ -42,8 +45,8 @@ class Puppet(apibase.API):
         try:
             return r.json()["results"][hostname]
         except (simplejson.JSONDecodeError, KeyError):
-            e = self.NotAvailableError(r.status_code)
-            sys.exit(r.status_code)
+            raise self.NotAvailableError(r.status_code)
+            # sys.exit(r.status_code)
     
     
     @staticmethod

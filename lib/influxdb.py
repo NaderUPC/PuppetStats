@@ -38,15 +38,14 @@ class InfluxDB:
         }
     
     
-    def security(self, group: str, hosts: list) -> dict:
+    def security(self, group: str, hosts: list, puppet_ep: puppet.Puppet) -> dict:
         if group != "UPCnet/SO" and group != "UPCnet/IE":
             raise ValueError("group must be either UPCnet/SO or UPCnet/IE")
         
         security_values = {}
         for host in hosts:
             hostname = host["name"]
-            try:
-                updates = int()
+            try: updates = int(puppet_ep.hosts(security_updates = True, hostname = hostname)[hostname]["apt_security_updates"])
             except KeyError: continue
             security_values[hostname] = updates
         
