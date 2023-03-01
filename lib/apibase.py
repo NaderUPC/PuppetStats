@@ -8,7 +8,6 @@ Base implementation of an API, to be used by more specific API wrappers.
 import requests
 import json
 from http.client import responses
-import sys
 
 
 class API:
@@ -51,8 +50,7 @@ class API:
                 headers = self.headers
             )
         except requests.exceptions.ConnectionError:
-            e = self.NotAvailableError(404)
-            sys.exit(404)
+            raise self.NotAvailableError(404)
     
     
     def get(self, uri: str, params: dict = None) -> requests.Response:

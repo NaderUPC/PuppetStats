@@ -6,7 +6,7 @@ import modules.config as config
 import modules.funcs as funcs
 from datetime import datetime
 
-from pprint import pprint  # DEBUG
+# from pprint import pprint  # DEBUG
 
 
 def main():
@@ -27,9 +27,9 @@ def main():
     # Reboot
     payload.extend(funcs.reboot(db_ep, puppet_ep))
 
-    pprint(payload)  # DEBUG
+    # pprint(payload)  # DEBUG
 
-    # db_client.write_points(payload)
+    db_client.write_points(payload)
 
 
 if __name__ == "__main__":

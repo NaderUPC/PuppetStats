@@ -1,8 +1,5 @@
 import simplejson
 import lib.apibase as apibase
-import sys
-
-from pprint import pprint
 
 
 class Puppet(apibase.API):
@@ -36,7 +33,6 @@ class Puppet(apibase.API):
             return r.json()["results"]
         except (simplejson.JSONDecodeError, KeyError):
             raise self.NotAvailableError(r.status_code)
-            # sys.exit(r.status_code)
     
     
     def facts_of(self, hostname: str) -> dict:
@@ -46,7 +42,6 @@ class Puppet(apibase.API):
             return r.json()["results"][hostname]
         except (simplejson.JSONDecodeError, KeyError):
             raise self.NotAvailableError(r.status_code)
-            # sys.exit(r.status_code)
     
     
     @staticmethod
