@@ -670,11 +670,8 @@
             "mode": "absolute",
             "steps": [
               {
-                "color": "green"
-              },
-              {
-                "color": "red",
-                "value": 80
+                "color": "light-green",
+                "value": null
               }
             ]
           }
@@ -707,7 +704,7 @@
             "type": "influxdb",
             "uid": "${DS_PUPPET_STATS}"
           },
-          "query": "",
+          "query": "SELECT * FROM esm WHERE (\"group\" = 'UPCnet/IE')",
           "rawQuery": true,
           "refId": "A",
           "resultFormat": "time_series"
@@ -740,9 +737,9 @@
               "tooltip": false,
               "viz": false
             },
-            "lineInterpolation": "linear",
-            "lineWidth": 1,
-            "pointSize": 5,
+            "lineInterpolation": "smooth",
+            "lineWidth": 5,
+            "pointSize": 13,
             "scaleDistribution": {
               "type": "linear"
             },
@@ -761,7 +758,8 @@
             "mode": "absolute",
             "steps": [
               {
-                "color": "green"
+                "color": "green",
+                "value": null
               },
               {
                 "color": "red",
@@ -797,7 +795,7 @@
             "type": "influxdb",
             "uid": "${DS_PUPPET_STATS}"
           },
-          "query": "",
+          "query": "SELECT * FROM esm",
           "rawQuery": true,
           "refId": "A",
           "resultFormat": "time_series"
@@ -821,7 +819,8 @@
             "mode": "absolute",
             "steps": [
               {
-                "color": "light-purple"
+                "color": "light-purple",
+                "value": null
               }
             ]
           }
@@ -914,7 +913,8 @@
             "mode": "absolute",
             "steps": [
               {
-                "color": "light-red"
+                "color": "light-red",
+                "value": null
               },
               {
                 "color": "light-green",
@@ -979,7 +979,8 @@
             "mode": "absolute",
             "steps": [
               {
-                "color": "light-red"
+                "color": "light-red",
+                "value": null
               },
               {
                 "color": "light-green",
@@ -1367,6 +1368,6 @@
   "timezone": "",
   "title": "Infrastructure Engineering",
   "uid": "Bgk8nWaVk",
-  "version": 2,
+  "version": 4,
   "weekStart": ""
 }
