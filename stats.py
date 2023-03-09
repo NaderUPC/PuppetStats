@@ -30,7 +30,7 @@ def main():
     # pprint(payload)  # DEBUG
     
     try: db_client.write_points(payload)
-    except influxdb.InfluxDB.ClientError: pass
+    except influxdb.exceptions.InfluxDBClientError: pass
 
 
 if __name__ == "__main__":

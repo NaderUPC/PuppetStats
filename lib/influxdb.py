@@ -131,7 +131,3 @@ class InfluxDB:
             "fields": { "value": len(total) },
             "time": self.timestamp
         }
-    
-    class ClientError(exceptions.InfluxDBClientError):
-        def __init__(self, content: str):
-            super().__init__(content)
