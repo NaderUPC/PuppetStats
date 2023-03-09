@@ -7,7 +7,15 @@ class Puppet(apibase.API):
         super().__init__(url, username, password)
     
     
-    def hosts(self, location: str = "", group: str = "", reboot: bool = False, autoreboot: bool = False, security_updates: bool = False, hostname: str = "") -> list:
+    def hosts(self,
+              location: str = "",
+              group: str = "",
+              hostname: str = "",
+              reboot: bool = False,
+              autoreboot: bool = False,
+              security_updates: bool = False,
+              esm: bool = False) -> list:
+        # Global options
         uri = "api/hosts"
         params = { "per_page": "all" }
         if location and not group:
@@ -17,6 +25,7 @@ class Puppet(apibase.API):
         if location and group:
             params["search"] = f"{location} and parent_hostgroup={group}"
         
+        # Mode selection
         if reboot:
             params["search"] += " and facts.apt_reboot_required=true"
         elif autoreboot:
@@ -27,7 +36,10 @@ class Puppet(apibase.API):
             uri = f"api/hosts/{hostname}/facts"
             params["per_page"] = "1000"
             params["search"] = "apt_security_updates"
+        elif esm:
+            params["search"] = "facts.ua_valid_until !~ ''"
         
+        # HTTP GET response
         r = self.get(uri, params = params)
         try:
             return r.json()["results"]

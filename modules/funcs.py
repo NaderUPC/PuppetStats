@@ -38,7 +38,7 @@ def esm(db_ep: influxdb.InfluxDB, puppet_ep: puppet.Puppet) -> list:
     for group in groups:
         payloads.append(db_ep.esm(
             group = group,
-            hosts = puppet_ep.hosts(group = group)
+            hosts = puppet_ep.hosts(group = group, esm = True)
         ))
     return payloads
 
