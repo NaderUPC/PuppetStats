@@ -37,7 +37,7 @@ class Puppet(apibase.API):
             params["per_page"] = "1000"
             params["search"] = "apt_security_updates"
         elif esm:
-            params["search"] = "facts.ua_valid_until !~ ''"
+            params["search"] += " facts.ua_valid_until !~ ''"
         
         # HTTP GET response
         r = self.get(uri, params = params)
