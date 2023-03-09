@@ -74,5 +74,25 @@ class Puppet(apibase.API):
             os[0] = "OracleLinux"
             for _ in range(3): os.pop(1)
         
-        os[1] = os[1].split('.')[0]
+        if os[0] == "Windows":
+            win_kern_ver = os[1].split('.')
+            if win_kern_ver[0] == "6":
+                if win_kern_ver[1] == "0":
+                    os[1] = "2008"
+                elif win_kern_ver[1] == "1":
+                    os[1] = "2008 R2"
+                elif win_kern_ver[1] == "2":
+                    os[1] = "2012"
+                elif win_kern_ver[1] == "3":
+                    os[1] = "2012 R2"
+            elif win_kern_ver[0] == "10":
+                if win_kern_ver[2] == "14393":
+                    os[1] = "2016"
+                elif win_kern_ver[2] == "17763":
+                    os[1] = "2019"
+                elif win_kern_ver[2] == "20348":
+                    os[1] = "2022"
+            del win_kern_ver
+        else: os[1] = os[1].split('.')[0]
+        
         return ' '.join(os)
