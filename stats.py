@@ -28,8 +28,9 @@ def main():
     payload.extend(funcs.reboot(db_ep, puppet_ep))
 
     # pprint(payload)  # DEBUG
-
-    db_client.write_points(payload)
+    
+    try: db_client.write_points(payload)
+    except influxdb.InfluxDB.ClientError: pass
 
 
 if __name__ == "__main__":
