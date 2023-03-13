@@ -93,6 +93,7 @@ class Puppet(apibase.API):
                 elif win_kern_ver[2] == "20348":
                     os[1] = "2022"
             del win_kern_ver
+        elif os[0] == "RedHat" or os[0] == "Ubuntu": pass
         else: os[1] = os[1].split('.')[0]
         
         return ' '.join(os)
